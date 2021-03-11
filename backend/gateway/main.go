@@ -1,24 +1,53 @@
 package main
 
 import (
+	"ProjectMIRRO/backend/gateway/handlers"
+	"ProjectMIRRO/backend/gateway/models/users"
+	"ProjectMIRRO/backend/gateway/sessions"
 	"log"
 	"net/http"
 	"os"
+	"time"
+
+	"github.com/go-redis/redis"
+	_ "github.com/go-sql-driver/mysql"
 )
 
-// This is the main function for the gateway/firewall
+//main is the main entry point for the server
 func main() {
-	addr := os.Getenv("ADDR")
+
+	sessionID := os.Getenv("SESSIONKEY")
+	redisAddr := os.Getenv("REDISADDR")
 	TLSKEY := os.Getenv("TLSKEY")
 	TLSCERT := os.Getenv("TLSCERT")
-	if len(addr) == 0 {
-		addr = ":443"
+	addr := ":443"
+
+	DSN := os.Getenv("DSN")
+	if len(redisAddr) == 0 {
+		redisAddr = "127.0.0.1:6379"
+	}
+	redisDB := redis.NewClient(&redis.Options{
+		Addr: redisAddr,
+	})
+	sessionStore := sessions.NewRedisStore(redisDB, time.Hour)
+
+	userStore, err := users.NewMySQLStore(DSN)
+	if err != nil {
+		log.Printf("Unable to open database mysql %v", err)
 	}
 
-	// Route requests to different handlers
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", rootHandler)
+	contextHandler := &handlers.ContextHandler{
+		SessionID:    sessionID,
+		SessionStore: sessionStore,
+		UserStore:    userStore,
+	}
 
-	log.Printf("now server is listening")
-	log.Fatal(http.ListenAndServeTLS(addr, TLSKEY, TLSCERT, mux))
+	mux := http.NewServeMux()
+	log.Printf("server is listening at %s...", addr)
+	mux.HandleFunc("/users", contextHandler.UsersHandler)
+	mux.HandleFunc("/users/", contextHandler.SpecificUserHandler)
+	mux.HandleFunc("/sessions", contextHandler.SessionsHandler)
+	mux.HandleFunc("/sessions/", contextHandler.SpecificSessionHandler)
+	wrappedMux := handlers.NewHeaderHandler(mux)
+	log.Fatal(http.ListenAndServeTLS(addr, TLSCERT, TLSKEY, wrappedMux))
 }
