@@ -1,4 +1,3 @@
 TODO:
-1. Go mod local modle import problems need to be fixed
 2. Mysql for users account needed to be implemented
 3. Models needs to be modified
