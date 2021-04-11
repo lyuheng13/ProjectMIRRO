@@ -1,2 +1,2 @@
-docker build -t niupi/userMysql .
-docker push niupi/userMysql
+docker build -t niupi/mysql .
+docker push niupi/mysql

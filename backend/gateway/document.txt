@@ -1,3 +1,0 @@
-TODO:
-2. Mysql for users account needed to be implemented
-3. Models needs to be modified

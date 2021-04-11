@@ -1,5 +1,5 @@
 FROM alpine
 #RUN apk add --no-cache ca-certificates
-COPY src src
+COPY ../gateway gateway
 EXPOSE 80
-ENTRYPOINT ["/src"]
+ENTRYPOINT ["/gateway"]

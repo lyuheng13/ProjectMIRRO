@@ -1,21 +1,17 @@
-package users
+package model
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // GetByType is an enumerate for GetBy* functions implemented
 // by MySQLStore structs
 type GetByType string
-
-// These are the enumerates for GetByType
-const (
-	ID       GetByType = "ID"
-	Email    GetByType = "Email"
-	UserName GetByType = "UserName"
-)
 
 // MySQLStore is a user.Store backed by MySQL
 type MySQLStore struct {
@@ -35,7 +31,7 @@ func NewMySQLStore(dataSourceName string) (*MySQLStore, error) {
 
 // getByProvidedType gets a specific user given the provided type.
 // This requires the GetByType to be "unique" in the database.
-func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*User, error) {
+func (ms *MySQLStore) getByProvidedType(t string, arg interface{}) (*User, error) {
 	sel := string("select ID, Email, PassHash, UserName, FirstName, LastName, PhotoURL from Users where " + t + " = ?")
 
 	rows, err := ms.Database.Query(sel, arg)
@@ -63,23 +59,25 @@ func (ms *MySQLStore) getByProvidedType(t GetByType, arg interface{}) (*User, er
 
 //GetByID returns the User with the given ID
 func (ms *MySQLStore) GetByID(id int64) (*User, error) {
-	return ms.getByProvidedType(ID, id)
+	return ms.getByProvidedType("ID", id)
 }
 
 //GetByEmail returns the User with the given email
 func (ms *MySQLStore) GetByEmail(email string) (*User, error) {
-	return ms.getByProvidedType(Email, email)
+	return ms.getByProvidedType("Email", email)
 }
 
 //GetByUserName returns the User with the given Username
 func (ms *MySQLStore) GetByUserName(username string) (*User, error) {
-	return ms.getByProvidedType(UserName, username)
+	return ms.getByProvidedType("UserName", username)
 }
 
 //Insert inserts the user into the database, and returns
 //the newly-inserted User, complete with the DBMS-assigned ID
 func (ms *MySQLStore) Insert(user *User) (*User, error) {
 	ins := "insert into Users(Email, PassHash, UserName, FirstName, LastName, PhotoURL) values (?,?,?,?,?,?)"
+	fmt.Println(ms)
+	fmt.Println(ms.Database)
 	res, err := ms.Database.Exec(ins, user.Email, user.PassHash, user.UserName,
 		user.FirstName, user.LastName, user.PhotoURL)
 	if err != nil {
@@ -111,7 +109,7 @@ func (ms *MySQLStore) Update(id int64, updates *Updates) (*User, error) {
 	}
 
 	if rowsAffected != 1 {
-		return nil, ErrUserNotFound
+		return nil, errors.New("User not found")
 	}
 
 	// Get the user using GetByID
@@ -132,9 +130,8 @@ func (ms *MySQLStore) Delete(id int64) error {
 	}
 
 	if rowsAffected != 1 {
-		return ErrUserNotFound
+		return errors.New("User not found")
 	}
-
 	return nil
 }
 
