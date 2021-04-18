@@ -37,8 +37,17 @@ func main() {
 
 	//Routing
 	router := fasthttprouter.New()
+
+	//Signup/Login module
 	router.POST("/user/signup", ch.SignupHandler)
 	router.POST("/user/login", ch.LoginHandler)
+
+	//User modification module
+	router.GET("/user/:userid", ch.UserGetHandler)
+	router.PATCH("/user/:userid", ch.UserGetHandler)
+	router.DELETE("/user/:userid", ch.UserGetHandler)
+
+	//Test
 	router.GET("/test", TestHandler)
 
 	fmt.Println("Server Listening at port 8080...")

@@ -1,0 +1,53 @@
+进入bash操控mongodb
+sudo docker exec -it mongoone bash
+mongo
+
+use admin
+ db.auth('niupi','@NIUPI123')
+
+//创建数据库user
+use user
+db.user.insert(
+    {
+        "12345@gmail.com" : {
+            "userid": 1,
+            "name": "userOne",
+            "avatar": "none",
+            "friends": [""],
+            "favorites": {
+                "games": {
+                    "MHrise": {
+                        "id": 1,
+                        "info" : "This is a good game"
+                    }
+                },
+                "music": [""],
+                "book": [""],
+                "vedio": [""]
+            }
+        }
+    }
+)
+
+db.user.insert(
+    {
+        "15@gmail.com" : {
+            "userid": 1,
+            "name": "userOne",
+            "avatar": "none",
+            "friends": [""],
+            "favorites": {
+                "games": {
+                    "MHrise": {
+                        "id": 1,
+                        "info" : "This is a good game"
+                    }
+                },
+                "music": [""],
+                "book": [""],
+                "vedio": [""]
+            }
+        }
+    }
+)
+

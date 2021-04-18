@@ -1,0 +1,37 @@
+进入bash操控mongodb
+sudo docker exec -it mongoone bash
+mongo
+
+use admin
+db.auth('niupi','@NIUPI123')
+
+//创建数据库ml
+use ml
+
+db.user.insert(
+    {
+        "test": {
+            "userid": "123",
+            "useremail": "123@gmail.com",
+            "cate" : {
+                "action": 10,
+                "Love": 0,
+                "Suspense": 2,
+                "Comedy": 0,
+                "Horror": 0,
+                "Family": 0,
+                "Music": 0,
+                "Dance": 0,
+                "Adventure": 0,
+                "History": 0,
+                "Magic": 0,
+                "War": 0,
+                "Crime": 0,
+                "Sad": 0,
+                "Happy": 0,
+                "Angry": 0,
+                "Exciting": 0
+            }
+        }
+    }
+)
