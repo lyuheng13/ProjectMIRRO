@@ -90,5 +90,5 @@ have the system to track user interests and its own recommendation algorithm.
 
 ## System structure
 
-![image info](./structure.pdf)
+![image](structure.pdf)
 
