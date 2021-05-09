@@ -3,25 +3,25 @@
 ## Abstract
 
 This is web project that aims to provide a multi media recommendation system.
-From the website, Users are able to find books, music, movie, etc...
+From the website, Users are able to find books, music, movie, etc...  
 Current the product resources are from other website, but the platform itself will
 have the system to track user interests and its own recommendation algorithm.
 
 ## APIs
 
   #### POST /user/signup
-  A sign up handler used to create and register new user to the database. A userid will be returned.
-
-  Req Body:
-    {
-     Email \ string
-     Username \ string
-     Password \ string (more than 8 characters)
-     PasswordConf \ string (Same as Password)
-     Firstname \ string
-     Lastname \ string
-    }
-
+  A sign up handler used to create and register new user to the database. A userid will be returned.  
+  
+  Req Body:  
+    {  
+     Email \ string  
+     Username \ string  
+     Password \ string (more than 8 characters)  
+     PasswordConf \ string (Same as Password)  
+     Firstname \ string  
+     Lastname \ string   
+    }  
+  
   #### POST /user/login
   Login handler userd to login to the account. A userid will be returned.
 
