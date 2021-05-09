@@ -1,15 +1,15 @@
-进入bash操控mongodb
+//Use bash to contorl mongodb
 sudo docker exec -it mongoone bash
 mongo
 
 use admin
  db.auth('niupi','@NIUPI123')
 
-//创建数据库user
+//Create user database
 use user
 db.user.insert(
     {
-        "12345@gmail.com" : {
+        "1" : {
             "userid": 1,
             "name": "userOne",
             "avatar": "none",
@@ -31,9 +31,9 @@ db.user.insert(
 
 db.user.insert(
     {
-        "15@gmail.com" : {
-            "userid": 1,
-            "name": "userOne",
+        "123" : {
+            "userid": 123,
+            "name": "userTwo",
             "avatar": "none",
             "friends": [""],
             "favorites": {

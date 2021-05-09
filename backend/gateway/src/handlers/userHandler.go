@@ -61,6 +61,10 @@ func (ch *Context) getUserBody(req *fasthttp.Request) (*model.User, error) {
 	db := ch.UserSql
 
 	useridByte := req.URI().QueryArgs().Peek("userid")
+	if len(useridByte) == 0 {
+		return nil, fmt.Errorf("No userid found")
+	}
+
 	userid := int64(binary.BigEndian.Uint64(useridByte))
 	userBody, err := db.GetByID(userid)
 	if err != nil {

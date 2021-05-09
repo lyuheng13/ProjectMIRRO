@@ -24,9 +24,10 @@ func newContextHandler() *handlers.Context {
 	return ch
 }
 
+//Only for the test
 func TestHandler(ctx *fasthttp.RequestCtx) {
 	res := &ctx.Response
-	res.AppendBodyString("Hello test")
+	res.AppendBodyString("Hello MIRRO")
 	res.SetStatusCode(200)
 }
 
@@ -43,9 +44,15 @@ func main() {
 	router.POST("/user/login", ch.LoginHandler)
 
 	//User modification module
-	router.GET("/user/:userid", ch.UserGetHandler)
-	router.PATCH("/user/:userid", ch.UserGetHandler)
-	router.DELETE("/user/:userid", ch.UserGetHandler)
+	router.GET("/user", ch.UserGetHandler)
+	router.PATCH("/user", ch.UserGetHandler)
+	router.DELETE("/user", ch.UserGetHandler)
+
+	//Recommend handlers
+	router.GET("/reco/", ch.RecoGetHandler)
+
+	//Rate handlers
+	router.POST("/rate", ch.RatePostHandler)
 
 	//Test
 	router.GET("/test", TestHandler)

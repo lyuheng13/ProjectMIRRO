@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/valyala/fasthttp"
 	"golang.org/x/crypto/bcrypt"
@@ -14,6 +15,7 @@ import (
 func (ch *Context) SignupHandler(ctx *fasthttp.RequestCtx) {
 	req := &ctx.Request
 	res := &ctx.Response
+	mysql := ch.UserSql
 
 	//Unmarshalling the data
 	body := req.Body()
@@ -33,6 +35,16 @@ func (ch *Context) SignupHandler(ctx *fasthttp.RequestCtx) {
 		fmt.Println("Error inserting new user")
 		return
 	}
+
+	userModel, err := mysql.GetByEmail(data.Email)
+	if err != nil {
+		fmt.Println("Error inserting new user")
+		return
+	}
+
+	//Send back the userid
+	userId := userModel.ID
+	res.SetBodyString(strconv.FormatInt(userId, 10))
 	res.SetStatusCode(200)
 }
 

@@ -9,13 +9,13 @@ docker run -d \
 --network niupi \
 niupi/mysql
 
-#进入容器
+
 #docker exec -it mysql bash
 
-#登录mysql
+
 #mysql -u root -p
 #ALTER USER 'root'@'localhost' IDENTIFIED BY 'Lzslov123!';
 
-#添加远程登录用户
+
 #CREATE USER 'liaozesong'@'%' IDENTIFIED WITH mysql_native_password BY 'Lzslov123!';
 #GRANT ALL PRIVILEGES ON *.* TO 'liaozesong'@'%';
