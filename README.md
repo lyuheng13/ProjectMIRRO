@@ -9,7 +9,7 @@ have the system to track user interests and its own recommendation algorithm.
 
 ## APIs
 
-  ### POST /user/signup. 
+  ### "POST /user/signup"
   #### A sign up handler used to create and register new user to the database. A userid will be returned.  
   
   Req Body:  
@@ -22,7 +22,9 @@ have the system to track user interests and its own recommendation algorithm.
      Lastname \ string   
     }  
   
-  ### POST /user/login. 
+    
+  ........................................................................................................................  
+  ### "POST /user/login"
   #### Login handler userd to login to the account. A userid will be returned.  
   
   Req Body:  
@@ -31,11 +33,16 @@ have the system to track user interests and its own recommendation algorithm.
     Password \ string  
   }  
   
-  ### GET /user?userid=xxxx  
+  
+  ........................................................................................................................
+  ### "GET /user?userid=xxxx"
   #### User Get handler used by the front-end system to get user information.  
   
+    
   
-  ### PATCH /user?userid=xxxx  
+  
+  ........................................................................................................................
+  ### "PATCH /user?userid=xxxx"
   #### User Patch handler used to modify user information in the database.  
   
   Req Body:  
@@ -48,11 +55,17 @@ have the system to track user interests and its own recommendation algorithm.
   }  
 
   
-  ### DELETE /user?userid=xxxx  
+  
+  ........................................................................................................................
+    
+  ### "DELETE /user?userid=xxxx"
   #### User Delete handler used to delete the user account  
   
+    
 
-  ### GET /reco?userid=xxxx  
+  ........................................................................................................................
+  
+  ### "GET /reco?userid=xxxx"
   #### Recommendation handler used to get recommended products.  
   
   Resp (currently):  
@@ -60,8 +73,10 @@ have the system to track user interests and its own recommendation algorithm.
     Youtube \ []string (a list of recommended vedio)  
   }  
 
-  ### POST /rate  
-  #### Rate handler used to rate a certain type of products. The recommendation algorithm will update based on user's ratings.  
+  ........................................................................................................................
+      
+  ### "POST /rate"
+  Use: Rate handler used to rate a certain type of products. The recommendation algorithm will update based on user's ratings.  
 
   Req Body:  
   {  
@@ -70,7 +85,10 @@ have the system to track user interests and its own recommendation algorithm.
     Score \ Integer (From 0 to 10, 10 means perfect)  
     Link \ string (Optional, the product link)  
   }  
- 
-
+  ........................................................................................................................
+  
+  
 ## System structure
+
+
 
