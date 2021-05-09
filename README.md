@@ -84,8 +84,8 @@ have the system to track user interests and its own recommendation algorithm.
     Like \ Boolean
     Score \ Integer (From 0 to 10, 10 means perfect)
     Link \ string (Optional, the product link)
-  }
-  ........................................................................................................................
+  }      
+    
 
 
 ## System structure
