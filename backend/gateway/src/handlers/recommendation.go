@@ -37,26 +37,34 @@ func (ch *Context) RecoGetHandler(ctx *fasthttp.RequestCtx) {
 
 	//Caculate the recommendation
 	highest, _ := getHighest(caterMap, recommendationNum)
+	fmt.Println(highest)
+
+	result := make(map[string]interface{})
 
 	//Retrieve recommendations
 	switch c := string(recoType); c {
 	case "game":
 		{
-			fmt.Print("game")
+			fmt.Print("game") //TODO
 		}
 	case "music":
 		{
-			fmt.Print("music")
+			fmt.Print("music") //TODO
 		}
 	case "Vedio":
 		{
 			fmt.Print("Vedio")
+			result = api.YoutebeSearch(highest)
 		}
 	case "book":
 		{
-			fmt.Print("book")
+			fmt.Print("book") //TODO
 		}
 	}
+
+	recommendByte, _ := json.Marshal(result)
+	ctx.Response.AppendBody(recommendByte)
+	ctx.Response.SetStatusCode(200)
 }
 
 //Receive the rating of the specific type
@@ -72,7 +80,7 @@ func (ch *Context) RatePostHandler(ctx *fasthttp.RequestCtx) {
 	catergory := model.Category{}
 
 	json.Unmarshal(bodyData, &rate)
-	ratedType := rate.Type
+	//ratedType := rate.Type
 	userId := rate.ID
 
 	//Get user type info
@@ -83,10 +91,12 @@ func (ch *Context) RatePostHandler(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
+	//Update rate
 	if rate.Score != 0 {
 		catergory[ratedType] += rate.Score - 2
 	}
 
+	ctx.Response.SetStatusCode(200)
 }
 
 //Get a slice of catergories with highest scores
